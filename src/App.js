@@ -51,7 +51,13 @@ async function processIds(ids) {
 
   for(const id of ids) {
     try {
-      const res = await axios.get(`${endpoint}${id}`);
+      const res = await axios({
+        url: `${endpoint}${id}`,
+        headers: {
+          "Origin": "*",
+        },
+        method: 'GET',
+      });
       const data = res.data;
       jsonData.push(getStructuredJSON(id, data.response));
     } catch (e) {
@@ -59,7 +65,7 @@ async function processIds(ids) {
     }
   }
 
-  
+
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonData));
   console.log('JSON data has been created!');
   console.log(jsonData);
